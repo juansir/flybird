@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			.div {
+				width: 343px;
+				height: 480px;
+				background: url(img/bg.jpg) no-repeat left top;
+				overflow: hidden;
+				margin: 50px;
+				position: relative;
+			}
+			/*.div1{
+				width:343px;
+				height: 480px;
+			}*/
+			
+			.img {
+				position: absolute;
+				left: 10%;
+				top: 50%;
+				display: none;
+			}
+			
+			.img1 {
+				position: absolute;
+				left: 10%;
+				top: 20%;
+			}
+			
+			.img2 {
+				position: absolute;
+				right: 15%;
+				top: 25%;
+			}
+			
+			.ipt1 {
+				width: 85px;
+				height: 29px;
+				border: none;
+				background: url(img/start.jpg) no-repeat left top;
+				position: absolute;
+				z-index: 99;
+				left: 20%;
+				top: 60%;
+				cursor: pointer;
+			}
+			
+			.ipt2 {
+				width: 85px;
+				height: 29px;
+				border: none;
+				background: url(img/submit.jpg) no-repeat left top;
+				position: absolute;
+				z-index: 99;
+				right: 20%;
+				top: 60%;
+				cursor: pointer;
+			}
+			
+			#ul {
+				width: 200%;
+				position: absolute;
+				bottom: 40px;
+			}
+			
+			li {
+				float: left;
+			}
+			
+			.zhuzi_total {
+				width: 100%;
+				height: 422px;
+				display: none;
+				position: relative;
+			}
+			
+			.zhuzi_total img {
+				float: left;
+			}
+			
+			.zhuzi {
+				width: 62px;
+				height: 422px;
+				position: absolute;
+				right: 0;
+			}
+			
+			.zhuzi_up {
+				width: 62px;
+				position: absolute;
+				top: 0;
+			}
+			
+			.zhuzi_down {
+				width: 62px;
+				position: absolute;
+				bottom: 0;
+			}
+			
+			.zhuzi_img1 {
+				width: 62px;
+			}
+			
+			.zhuzi_img4 {
+				width: 62px;
+			}
+			
+			.score {
+				position: absolute;
+				z-index: 99;
+				top: 10%;
+				left: 40%;
+			}
+			
+			.score div {
+				width: 28px;
+				height: 39px;
+				float: left;
+				background-image: url(img/0.jpg);
+				display: none;
+			}
+			
+			.end {
+				position: absolute;
+				top: 150px;
+				left: 40px;
+				display: none;
+			}
+			.game{
+				position: absolute;
+				top:-50px;
+				left:30px
+			}
+			.mes {
+				width: 269px;
+				height:135px;
+				position: absolute;
+				background:url(img/message.jpg) no-repeat left center;
+			}
+			.mes span{
+				font-size: 16px;
+				color: orange;
+				font-family: "微软雅黑";
+			}
+			.medal{
+				position: absolute;
+				top:65px;
+				left: 33px;
+			}
+			.sco{
+				position: absolute;
+				top:38px;
+				right: 38px;
+			}
+			.best{
+				position: absolute;
+				top:85px;
+				right: 30px;
+			}
+			
+			.ok {
+				position: absolute;
+				top: 180px;
+				left: 80px;
+				cursor: pointer;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="div">
+			<!--被隐藏的小鸟-->
+			<img class="img" src="img/bird0.png" />
+
+			<!--开始界面的小鸟-->
+			<div class="div1">
+				<img class="img1" src="img/head.jpg" />
+				<!--小鸟动画-->
+				<img class="img2" src="img/bird0.png" />
+				<input class="ipt1" type="button" />
+				<input class="ipt2" type="button" />
+			</div>
+
+			<!--记分器-->
+			<div class="score">
+				<div class="num1"></div>
+				<div class="num2"></div>
+			</div>
+
+			<!--随机柱子的长度-->
+			<div class="zhuzi_total">
+				<div class="zhuzi">
+					<div class="zhuzi_up">
+						<img class="zhuzi_img1" src="img/up_mod.png" />
+						<img class="zhuzi_img2" src="img/up_pipe.png" />
+					</div>
+					<div class="zhuzi_down">
+						<img class="zhuzi_img3" src="img/down_pipe.png" />
+						<img class="zhuzi_img4" src="img/down_mod.png" />
+					</div>
+				</div>
+			</div>
+
+			<!--结束界面-->
+			<div class="end">
+				<img src="img/game_over.jpg" class="game" />
+				<div class="mes" >
+					<span class="medal">Cuivre</span>
+					<span class="sco"></span>
+					<span class="best"></span>
+				</div>
+				<img src="img/ok.jpg" class="ok" />
+			</div>
+
+			<!--开始界面线条轮播-->
+			<ul id="ul">
+				<li><img src="img/slider.jpg" /></li>
+				<li><img src="img/slider.jpg" /></li>
+			</ul>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		var div = document.querySelector('.div');
+		var bird = document.querySelector('.img');
+		var sbird = document.querySelector('.img2');
+		var ul = document.getElementById('ul');
+		var start = document.querySelector(".ipt1");
+		var sub = document.querySelector('.ipt2');
+		var bdiv = document.querySelector('.div1');
+		var zhuzi_total = document.querySelector(".zhuzi_total");
+		var zhuzi = document.getElementsByClassName('zhuzi');
+		var zhuzi_up = document.querySelector(".zhuzi_up");
+		var zhuzi_img1 = document.querySelector(".zhuzi_img1");
+		var zhuzi_img2 = document.querySelector(".zhuzi_img2");
+		var zhuzi_img3 = document.querySelector(".zhuzi_img3");
+		var zhuzi_img4 = document.querySelector(".zhuzi_img4");
+		var zhuzi_down = document.querySelector(".zhuzi_down");
+		var num1 = document.querySelector(".num1");
+		var num2 = document.querySelector(".num2");
+		var end = document.querySelector('.end'),
+			mes = document.querySelector('.mes'),
+			ok = document.querySelector('.ok'),
+			medal = document.querySelector('.medal'),
+			sco = document.querySelector('.sco'),
+			best = document.querySelector('.best');
+
+		//小鸟自己飞的动画
+		var n = 0;
+		var arr = ["img/bird0.png", "img/bird1.png"]
+		var fly = setInterval(function() {
+			sbird.src = arr[n];
+			n++;
+			if(n >= 2) {
+				n = 0;
+			}
+		}, 200)
+
+		//开始界面线条轮播	
+		var timer = setInterval(function() {
+			ul.style.left = ul.offsetLeft - 3 + 'px';
+			if(ul.offsetLeft > 0) {
+				ul.style.left = -ul.offsetWidth / 2 + "px";
+			} else if(ul.offsetLeft < -ul.offsetWidth / 2) {
+				ul.style.left = 0;
+			}
+		}, 30);
+
+		//开始游戏的界面
+		start.onclick = function() {
+			bdiv.style.display = 'none';
+			bird.style.display = 'block';
+
+			//小鸟上下飞动
+			//小鸟自己飞的动画(开始前被隐藏)向下掉
+			var m = 0;
+			var arr = ["img/down_bird0.png", "img/down_bird1.png"]
+			var fly1 = setInterval(function() {
+				bird.src = arr[m];
+				m++;
+				if(m >= 2) {
+					m = 0;
+				}
+				bird.style.top = bird.offsetTop + 10 + 'px';
+				if(bird.offsetTop >= 410) {
+					bird.remove();
+					alert("Game over");
+					alert("Game over");
+					clearInterval(fly);
+					clearInterval(fly1);
+					clearInterval(timer);
+					clearInterval(zx);
+					clearInterval(zy);
+					clearInterval(pz);
+					clearInterval(tim);
+					end.style.display = 'block';
+				}
+				else if(bird.offsetTop<=2){
+					alert("Game over");
+					clearInterval(fly);
+					clearInterval(fly1);
+					clearInterval(timer);
+					clearInterval(zx);
+					clearInterval(zy);
+					clearInterval(pz);
+					clearInterval(tim);
+					end.style.display = 'block';
+				}
+			},200)
+			//小鸟向上飞
+			document.addEventListener('click', function(){
+				bird.src = 'img/up_bird0.png';
+				bird.style.top = bird.offsetTop - 30 + 'px';
+			}, false)
+			
+			
+			//键盘事件
+			document.onkeydown = function(e){
+				var e = e || window.event;
+				if(e.keyCode === 38){
+					bird.src = 'img/up_bird0.png';
+					bird.style.top = bird.offsetTop - 30 + 'px';
+				}
+			}
+
+			zhuzi_total.style.display = 'block';
+			//上下柱子的随机[0,100)
+			var up = Math.floor(Math.random() * 100);
+			console.log(up)
+			var down = 200 - up;
+			console.log(down)
+
+			//第一个柱子
+			zhuzi_img1.style.height = up + 'px';
+			zhuzi_img4.style.height = down + 'px';
+
+			var zx = setInterval(function() {
+				for(var i = 0; i < zhuzi.length; i++) {
+					zhuzi[i].style.left = zhuzi[i].offsetLeft - 5 + 'px';
+				}
+			}, 50)
+
+			var zy = setInterval(function() {
+				zhuzi = document.getElementsByClassName('zhuzi');
+				if(zhuzi[0].offsetLeft <= -62) {
+					zhuzi[0].remove();
+				} else if(zhuzi.length < 3) {
+
+					var i = zhuzi.length;
+
+					var zhuzi = document.createElement("div");
+					zhuzi.className = 'zhuzi';
+					zhuzi_total.appendChild(zhuzi);
+					zhuzi = document.getElementsByClassName('zhuzi');
+					console.log(zhuzi.length);
+
+					var zhuzi_up1 = document.createElement("div");
+					zhuzi_up1.className = 'zhuzi_up';
+					zhuzi[i].appendChild(zhuzi_up1);
+					var zhuzi_down1 = document.createElement("div");
+					zhuzi_down1.className = 'zhuzi_down';
+					zhuzi[i].appendChild(zhuzi_down1);
+
+					var zhuzi_img11 = new Image();
+					zhuzi_img11.className = 'zhuzi_img1';
+					zhuzi_img11.src = "img/up_mod.png";
+					zhuzi_up1.appendChild(zhuzi_img11);
+					var zhuzi_img21 = new Image();
+					zhuzi_img21.className = 'zhuzi_img2';
+					zhuzi_img21.src = "img/up_pipe.png";
+					zhuzi_up1.appendChild(zhuzi_img21);
+
+					var zhuzi_img31 = new Image();
+					zhuzi_img31.className = 'zhuzi_img3';
+					zhuzi_img31.src = "img/down_pipe.png";
+					zhuzi_down1.appendChild(zhuzi_img31);
+					var zhuzi_img41 = new Image();
+					zhuzi_img41.className = 'zhuzi_img4';
+					zhuzi_img41.src = "img/down_mod.png";
+					zhuzi_down1.appendChild(zhuzi_img41);
+
+					//上下柱子的随机[0,100)
+					var up = Math.floor(Math.random() * 100);
+					console.log(up)
+					var down = 200 - up;
+					console.log(down)
+
+					//第n个柱子
+					zhuzi_img11.style.height = up + 'px';
+					zhuzi_img41.style.height = down + 'px';
+					zhuzi[i].style.left = zhuzi[i].offsetLeft + i * 281 + 'px';
+				}
+			}, 50)
+
+			//碰撞事件
+			var pz = setInterval(function() {
+				zhuzi = document.getElementsByClassName('zhuzi');
+				for(var i = 0; i < zhuzi.length; i++) {
+					(function(w) {
+						var zhuzi_left = zhuzi[w].offsetLeft;
+						var zhuzi_left2 = zhuzi[w].offsetLeft + zhuzi[w].offsetWidth;
+						console.log(zhuzi_left)
+						var zhuzi_top = zhuzi[w].children[0].offsetHeight;
+						console.log(zhuzi_top)
+						var bird_left = bird.offsetLeft + bird.offsetWidth;
+						var bird_top = bird.offsetTop;
+						if(bird_left > zhuzi_left && bird_top < zhuzi_top && bird_left < zhuzi_left2) {
+							clearInterval(fly);
+							clearInterval(timer);
+							clearInterval(zx);
+							clearInterval(zy);
+							clearInterval(pz);
+							clearInterval(tim);
+							end.style.display = 'block';
+						} 
+						else if(bird_left > zhuzi_left && (bird.offsetHeight+bird.offsetTop) > (zhuzi_top + 102) && bird_left < zhuzi_left2) {
+							clearInterval(fly);
+							clearInterval(timer);
+							clearInterval(zx);
+							clearInterval(zy);
+							clearInterval(pz);
+							clearInterval(tim);
+							end.style.display = 'block';
+						}
+					})(i)
+				}
+
+			}, 10)
+			
+			//记分器
+			var score = 0;
+			num1.style.display = 'block';
+			num2.style.display = 'block';
+			var tim = setInterval(function() {
+				score++;
+				for(var i = 0; i < zhuzi.length; i++) {
+					(function(g) {
+						if(bird.offsetLeft > zhuzi[g].children[0].offsetLeft) {
+							if(score < 10) {
+								num2.style.backgroundImage = "url(img/" + score + ".jpg)";
+							}
+							else if(score < 100) {
+								num1.style.backgroundImage = "url(img/" + parseInt(score / 10) + ".jpg)";
+								num2.style.backgroundImage = "url(img/" + score % 10 + ".jpg)";
+							}
+						}
+					})(i)
+				}
+				
+				//结束界面
+				console.log(score);
+				sco.innerText = score;
+			},3000)
+			
+		}
+		
+		//点击ok
+		ok.addEventListener('click',function(){
+			window.location.href = "index.html";
+		},false)
+		
+	</script>
+
+</html>
